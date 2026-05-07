@@ -7,6 +7,11 @@
                 "url": "assets/Looking2.png"
             },
             {
+                "type": "image",
+                "key": "ground",
+                "url": "assets/ground.png"
+            },
+            {
                 "type":"spritesheet",
                 "key":"idlespritesheet",
                 "url": "assets/animations/idle/sprite_sheet.png",
@@ -14,6 +19,46 @@
                     "frameWidth": 360,
                     "frameHeight": 300
                 }
+            },
+            {
+                "type": "image",
+                "key": "leftgravity1",
+                "url": "assets/effects/leftgravity1.png"
+            },
+            {
+                "type": "image",
+                "key": "leftgravity2",
+                "url": "assets/effects/leftgravity2.png"
+            },
+            {
+                "type": "image",
+                "key": "upgravity1",
+                "url": "assets/effects/upgravity1.png"
+            },
+            {
+                "type": "image",
+                "key": "upgravity2",
+                "url": "assets/effects/upgravity2.png"
+            },
+            {
+                "type": "image",
+                "key": "rightgravity1",
+                "url": "assets/effects/rightgravity1.png"
+            },
+            {
+                "type": "image",
+                "key": "rightgravity2",
+                "url": "assets/effects/rightgravity2.png"
+            },
+            {
+                "type": "image",
+                "key": "downgravity1",
+                "url": "assets/effects/downgravity1.png"
+            },
+            {
+                "type": "image",
+                "key": "downgravity2",
+                "url": "assets/effects/downgravity2.png"
             },
             {
                 "type":"spritesheet",
