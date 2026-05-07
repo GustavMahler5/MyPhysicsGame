@@ -1,0 +1,36 @@
+{
+    "main": {
+        "files": [
+            {
+                "type": "image",
+                "key": "looking",
+                "url": "assets/Looking2.png"
+            },
+            {
+                "type":"image",
+                "key":"idle1",
+                "url": "assets/animations/idle/01.png"
+            },
+            {
+                "type":"image",
+                "key":"idle2",
+                "url": "assets/animations/idle/02.png"
+            },
+            {
+                "type":"image",
+                "key":"idle3",
+                "url": "assets/animations/idle/03.png"
+            },
+            {
+                "type":"image",
+                "key":"idle4",
+                "url": "assets/animations/idle/04.png"
+            },
+            {
+                "type":"image",
+                "key":"idle5",
+                "url": "assets/animations/idle/05.png"
+            }
+        ]
+    }
+}
