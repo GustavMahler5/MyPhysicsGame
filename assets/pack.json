@@ -7,29 +7,22 @@
                 "url": "assets/Looking2.png"
             },
             {
-                "type":"image",
-                "key":"idle1",
-                "url": "assets/animations/idle/01.png"
+                "type":"spritesheet",
+                "key":"idlespritesheet",
+                "url": "assets/animations/idle/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 360,
+                    "frameHeight": 300
+                }
             },
             {
-                "type":"image",
-                "key":"idle2",
-                "url": "assets/animations/idle/02.png"
-            },
-            {
-                "type":"image",
-                "key":"idle3",
-                "url": "assets/animations/idle/03.png"
-            },
-            {
-                "type":"image",
-                "key":"idle4",
-                "url": "assets/animations/idle/04.png"
-            },
-            {
-                "type":"image",
-                "key":"idle5",
-                "url": "assets/animations/idle/05.png"
+                "type":"spritesheet",
+                "key":"airbornespritesheet",
+                "url": "assets/animations/airborne/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 360,
+                    "frameHeight": 300
+                }
             }
         ]
     }

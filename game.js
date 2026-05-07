@@ -1,4 +1,4 @@
-class Scene1 extends Phaser.Scene {
+class Scene1 extends Controller {
     constructor() {
         super("scene1");
     }
@@ -10,42 +10,43 @@ class Scene1 extends Phaser.Scene {
     create() {
         this.physics.world.setBoundsCollision();
 
-        this.input.keyboard.on('keydown-W', (event) => {
-            console.log('The W key was pressed!');
-            // Gravity Up
-            this.physics.world.gravity.y = -1000;
-            this.physics.world.gravity.x = 0;
-        });
-        this.input.keyboard.on('keydown-A', (event) => {
-            console.log('The A key was pressed!');
-            // Gravity Left
-            this.physics.world.gravity.x = -1000;
-            this.physics.world.gravity.y = 0;
-        });
-        this.input.keyboard.on('keydown-S', (event) => {
-            console.log('The S key was pressed!');
-            // Gravity Down
-            this.physics.world.gravity.y = 1000;
-            this.physics.world.gravity.x = 0;
-        });
-        this.input.keyboard.on('keydown-D', (event) => {
-            console.log('The D key was pressed!');
-            // Gravity Right
-            this.physics.world.gravity.x = 1000;
-            this.physics.world.gravity.y = 0;
-        });
-        
-
         // 0 = Dynamic Body
         // 1 = Static Body
         // let image = this.physics.add.image(0, 0, 'looking').setOrigin(0,0);
         // image.body.immovable = false;
         // image.body.allowGravity = true;
         // image.setCollideWorldBounds(true);
-        let character = this.physics.add.sprite(500, 500, 'idle1', '01');
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("idlespritesheet", {
+                start: 0,
+                end: 20
+            }),
+            frameRate: 21,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "airborne",
+            frames: this.anims.generateFrameNumbers("airbornespritesheet", {
+                start: 0,
+                end: 18
+            }),
+            frameRate: 60,
+            repeat: 0
+        })
+        let character = this.physics.add.sprite(500, 500, "airbornespritesheet").setOrigin(0.5, 0.6);
+        // this.input.keyboard.on('keydown-P', (event) => {
+        //     character.play("airborne");
+        // });
+        // this.input.keyboard.on('keydown-O', (event) => {
+        //     character.play("idle");
+        // });
+        character.play("idle");
         character.body.setSize(140, 175)
         character.body.setOffset(110, 95);
         character.setCollideWorldBounds(true);
+
+        
     }
 
     update() {}
