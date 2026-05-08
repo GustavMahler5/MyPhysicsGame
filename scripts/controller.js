@@ -1,10 +1,14 @@
+"use strict";
+
 class Controller extends Phaser.Scene {
     constructor(key) {
         super(key);
         this.SCREEN_WIDTH = 1920;
         this.SCREEN_HEIGHT = 1080;
-        this.DRAG = 300;
-        this.GROUND_SIZE = 128;
+        this.DRAG = 750;
+        this.GROUND_SIZE = 60;
+        this.GRAVITY = 1800;
+        this.ONE_SECOND = 1000;
     }
     preload() {
         this.load.pack("main", "assets/pack.json");
@@ -18,16 +22,16 @@ class Controller extends Phaser.Scene {
 
             case("w"):
                 // Gravity Up
-                if (this.physics.world.gravity.y != -1000) {
-                    this.physics.world.gravity.y = -1000;
+                if (this.physics.world.gravity.y != -this.GRAVITY) {
+                    this.physics.world.gravity.y = -this.GRAVITY;
                     this.physics.world.gravity.x = 0;
 
-                    this.upGravityFX = this.add.image(this.SCREEN_WIDTH * 0.5, this.SCREEN_HEIGHT * 0.7, "upgravity1")
+                    this.upGravityFX = this.add.image(this.SCREEN_WIDTH * 0.47, this.SCREEN_HEIGHT * 0.7, "upgravity1")
                     .setAlpha(0.8)
                     .setDepth(-1)
                     .setScale(1.5);
                     
-                    this.upGravityFX2 = this.add.image(this.SCREEN_WIDTH * 0.5, this.SCREEN_HEIGHT * 0.7, "upgravity2")
+                    this.upGravityFX2 = this.add.image(this.SCREEN_WIDTH * 0.47, this.SCREEN_HEIGHT * 0.7, "upgravity2")
                     .setAlpha(0.8)
                     .setDepth(-1)
                     .setScale(1.5);
@@ -36,7 +40,7 @@ class Controller extends Phaser.Scene {
                         targets: this.upGravityFX,
                         y: this.SCREEN_HEIGHT * 0.45,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.upGravityFX.destroy();
@@ -47,7 +51,7 @@ class Controller extends Phaser.Scene {
                         targets: this.upGravityFX2,
                         y: this.SCREEN_HEIGHT * 0.35,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.upGravityFX2.destroy();
@@ -60,7 +64,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: 180,
-                            duration: 300
+                            duration: this.ONE_SECOND * 0.3
                         });
                     }
 
@@ -69,7 +73,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: -180,
-                            duration: 150
+                            duration: this.ONE_SECOND * 0.15
                         });
                     }
                 }
@@ -78,8 +82,8 @@ class Controller extends Phaser.Scene {
 
             case("a"):
                 // Gravity Left
-                if (this.physics.world.gravity.x != -1000) {
-                    this.physics.world.gravity.x = -1000;
+                if (this.physics.world.gravity.x != -this.GRAVITY) {
+                    this.physics.world.gravity.x = -this.GRAVITY;
                     this.physics.world.gravity.y = 0;
 
                     this.leftGravityFX = this.add.image(this.SCREEN_WIDTH * 0.65, this.SCREEN_HEIGHT * 0.5, "leftgravity1")
@@ -96,7 +100,7 @@ class Controller extends Phaser.Scene {
                         targets: this.leftGravityFX,
                         x: this.SCREEN_WIDTH * 0.45,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.leftGravityFX.destroy();
@@ -107,7 +111,7 @@ class Controller extends Phaser.Scene {
                         targets: this.leftGravityFX2,
                         x: this.SCREEN_WIDTH * 0.35,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.leftGravityFX2.destroy();
@@ -120,7 +124,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: -270,
-                            duration: 300
+                            duration: this.ONE_SECOND * 0.3
                         });
                     }
 
@@ -129,7 +133,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: 90,
-                            duration: 150
+                            duration: this.ONE_SECOND * 0.15
                         });
                     }
                 }
@@ -138,11 +142,11 @@ class Controller extends Phaser.Scene {
 
             case("s"):
                 // Gravity Down
-                if (this.physics.world.gravity.y != 1000) {
-                    this.physics.world.gravity.y = 1000;
+                if (this.physics.world.gravity.y != this.GRAVITY) {
+                    this.physics.world.gravity.y = this.GRAVITY;
                     this.physics.world.gravity.x = 0;
 
-                    this.downGravityFX = this.add.image(this.SCREEN_WIDTH * 0.5, this.SCREEN_HEIGHT * 0.45, "downgravity1")
+                    this.downGravityFX = this.add.image(this.SCREEN_WIDTH * 0.47, this.SCREEN_HEIGHT * 0.45, "downgravity1")
                     .setAlpha(0.8)
                     .setDepth(-1)
                     .setScale(1.5);
@@ -156,7 +160,7 @@ class Controller extends Phaser.Scene {
                         targets: this.downGravityFX,
                         y: this.SCREEN_HEIGHT * 0.7,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.downGravityFX.destroy();
@@ -167,7 +171,7 @@ class Controller extends Phaser.Scene {
                         targets: this.downGravityFX2,
                         y: this.SCREEN_HEIGHT * 0.7,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.downGravityFX2.destroy();
@@ -177,7 +181,7 @@ class Controller extends Phaser.Scene {
                     this.tweens.add({
                         targets: character,
                         angle: 0,
-                        duration: 150
+                        duration: this.ONE_SECOND * 0.15
                     });
                 }
                 break;
@@ -185,8 +189,8 @@ class Controller extends Phaser.Scene {
 
             case("d"):
                 // Gravity Right
-                if (this.physics.world.gravity.x != 1000) {
-                    this.physics.world.gravity.x = 1000;
+                if (this.physics.world.gravity.x != this.GRAVITY) {
+                    this.physics.world.gravity.x = this.GRAVITY;
                     this.physics.world.gravity.y = 0;
 
                     this.rightGravityFX = this.add.image(this.SCREEN_WIDTH * 0.45, this.SCREEN_HEIGHT * 0.5, "rightgravity1")
@@ -203,7 +207,7 @@ class Controller extends Phaser.Scene {
                         targets: this.rightGravityFX,
                         x: this.SCREEN_WIDTH * 0.6,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.rightGravityFX.destroy();
@@ -214,7 +218,7 @@ class Controller extends Phaser.Scene {
                         targets: this.rightGravityFX2,
                         x: this.SCREEN_WIDTH * 0.6,
                         alpha: 0,
-                        duration: 500,
+                        duration: this.ONE_SECOND * 0.5,
                         repeat: 0,
                         onComplete: () => {
                             this.rightGravityFX2.destroy();
@@ -227,7 +231,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: 270,
-                            duration: 150
+                            duration: this.ONE_SECOND * 0.15
                         });
                     }
 
@@ -236,7 +240,7 @@ class Controller extends Phaser.Scene {
                         this.tweens.add({
                             targets: character,
                             angle: -90,
-                            duration: 150
+                            duration: this.ONE_SECOND * 0.15
                         });
                     }
                 }

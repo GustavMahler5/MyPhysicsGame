@@ -12,12 +12,21 @@
                 "url": "assets/ground.png"
             },
             {
-                "type":"spritesheet",
-                "key":"idlespritesheet",
+                "type": "spritesheet",
+                "key": "idlespritesheet",
                 "url": "assets/animations/idle/sprite_sheet.png",
                 "frameConfig": {
                     "frameWidth": 360,
                     "frameHeight": 300
+                }
+            },
+            {
+                "type": "spritesheet",
+                "key": "creamspritesheet",
+                "url": "assets/animations/cream/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 42,
+                    "frameHeight": 120
                 }
             },
             {
