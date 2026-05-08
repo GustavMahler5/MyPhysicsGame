@@ -60,7 +60,7 @@ class Controller extends Phaser.Scene {
 
                     // Handle rotation direction
                     if (character.angle <= 90 && character.angle >= 0) {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: 180,
@@ -69,7 +69,7 @@ class Controller extends Phaser.Scene {
                     }
 
                     else {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: -180,
@@ -120,7 +120,7 @@ class Controller extends Phaser.Scene {
 
                     // Handle rotation direction
                     if (character.angle >= -180 && character.angle <= -90) {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: -270,
@@ -129,7 +129,7 @@ class Controller extends Phaser.Scene {
                     }
 
                     else {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: 90,
@@ -227,7 +227,7 @@ class Controller extends Phaser.Scene {
 
                     
                     if (character.angle >= 90) {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: 270,
@@ -236,7 +236,7 @@ class Controller extends Phaser.Scene {
                     }
 
                     else {
-                        console.log(character.angle);
+                        // console.log(character.angle);
                         this.tweens.add({
                             targets: character,
                             angle: -90,

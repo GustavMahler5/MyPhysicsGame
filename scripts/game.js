@@ -8,6 +8,7 @@ class Scene1 extends Controller {
         this.CREAM_START_X = 1800;
         this.CREAM_START_Y = 1000;
         this.CREAM_ANGLE = 5;
+        this.collected = false;
     }
 
     preload() {
@@ -15,6 +16,8 @@ class Scene1 extends Controller {
     }
 
     create() {
+
+        // Player cannot go beyond camera scope
         this.physics.world.setBoundsCollision();
         // this.image = this.physics.add.image(0, this.SCREEN_HEIGHT - 100, 'looking').setOrigin(0,0);
         // this.image.body.immovable = true;
@@ -110,6 +113,8 @@ class Scene1 extends Controller {
             }
         }
 
+
+        // Create character
         this.character = this.physics.add.sprite(this.PLAYER_START_X, this.PLAYER_START_Y, "airbornespritesheet")
         .setScale(0.25)
         .setDrag(this.DRAG, this.DRAG)
@@ -118,21 +123,30 @@ class Scene1 extends Controller {
         this.character.body.setOffset(95, 95);
         this.character.setCollideWorldBounds(true);
 
+
+        // Handle user inputs
         this.input.keyboard.on('keydown', (event) => {
             this.handleInput(event.key, this.character);
+            console.log((this.time.now / 1000).toFixed(2));
         });
 
-        // this.cream = this.add.group();
+        // Create collectable
         this.cream = this.physics.add.sprite(this.CREAM_START_X, this.CREAM_START_Y, "creamspritesheet").setOrigin(1, 1);
         this.cream.play("cream");
         this.cream.body.immovable = true;
         this.cream.body.allowGravity = false;
 
-
+        // Add colliders for player
         this.tween(this.cream, this.CREAM_ANGLE);
         this.physics.add.collider(this.character, this.ground, this.onCollide, null, this);
         this.physics.add.collider(this.character, this.cream, this.onPickup, null, this);
-        this.collected = false;
+
+        // Add timer for scene
+        this.timer = this.time.addEvent({
+            delay: this.ONE_SECOND * 0.2,
+            loop: true,
+        });
+        this.text = this.add.text(100, 100, "Time: 0").setDepth(10);
     }
 
     tween(item, angle) {
@@ -165,6 +179,9 @@ class Scene1 extends Controller {
             this.character.play("airborne");
             }
         }
+
+        let elapsed = (this.time.now) / 1000;
+        this.text.setText(`Time: ${elapsed.toFixed(2)}`);
     }
 }
 
