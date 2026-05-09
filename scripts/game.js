@@ -5,10 +5,15 @@ class Scene1 extends Controller {
         super("scene1");
         this.PLAYER_START_X = 100;
         this.PLAYER_START_Y = 100;
+
         this.CREAM_START_X = 1800;
         this.CREAM_START_Y = 1000;
         this.CREAM_ANGLE = 5;
         this.collected = false;
+
+        // Assume Origin(0.5, 0.5)
+        this.EXIT_START_X = 1750;
+        this.EXIT_START_Y = 375;
     }
 
     preload() {
@@ -58,7 +63,7 @@ class Scene1 extends Controller {
         if (1) {
             this.level = [
             ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
-            ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+            ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
             ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
             ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", "#", "#", "#", "#", "#", "#", ".", ".", ".", "#", "#", ".", ".", ".", ".", "#"],
             ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", ".", ".", ".", "#", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", ".", ".", ".", ".", "#"],
@@ -123,7 +128,6 @@ class Scene1 extends Controller {
         this.character.body.setOffset(95, 95);
         this.character.setCollideWorldBounds(true);
 
-
         // Handle user inputs
         this.input.keyboard.on('keydown', (event) => {
             this.handleInput(event.key, this.character);
@@ -135,11 +139,7 @@ class Scene1 extends Controller {
         this.cream.play("cream");
         this.cream.body.immovable = true;
         this.cream.body.allowGravity = false;
-
-        // Add colliders for player
         this.tween(this.cream, this.CREAM_ANGLE);
-        this.physics.add.collider(this.character, this.ground, this.onCollide, null, this);
-        this.physics.add.collider(this.character, this.cream, this.onPickup, null, this);
 
         // Add timer for scene
         this.timer = this.time.addEvent({
@@ -147,8 +147,81 @@ class Scene1 extends Controller {
             loop: true,
         });
         this.text = this.add.text(100, 100, "Time: 0").setDepth(10);
+
+        // Add exit for the scene
+        this.exit = this.physics.add.sprite(this.EXIT_START_X, this.EXIT_START_Y, "looking")
+        .setOrigin(0.5, 0.5)
+        .setScale(0.1)
+        .setDepth(-1);
+        this.exit.body.immovable = true;
+        this.exit.body.allowGravity = false;
+
+        // Add colliders for player
+        this.physics.add.collider(
+            this.character, 
+            this.ground, 
+            this.onCollide, 
+            null, 
+            this);
+
+        this.physics.add.overlap(
+            this.character, 
+            this.cream, 
+            this.onPickup, 
+            null, 
+            this);
+
+        this.physics.add.overlap(
+            this.character, 
+            this.exit, 
+            () => { this.onExit(
+                this.character, 
+                this.exit.x, 
+                this.exit.y, 
+                100, 
+                this.ONE_SECOND * 2) 
+            }, 
+            null, 
+            this);
+        
+        // this.onExit(sprite, this.EXIT_START_X, this.EXIT_START_Y, this.character, this.ONE_SECOND * 2);
     }
 
+    onExit(character, centerX, centerY, startRadius, duration) {
+
+        character.body.enable = false;
+        this.timer.paused = true;
+        // this.input.keyboard.enabled = false;
+        
+        let orbit = {
+            angle: 0,
+            radius: startRadius,
+            scale: character.scale
+        };
+
+        this.tweens.add({
+            targets: orbit,
+            angle: 1080,
+            radius: 0,
+            scale: 0,
+            duration: duration,
+            ease: "Sine.easeIn",
+            onUpdate: () => {
+                let radians = Phaser.Math.DegToRad(orbit.angle);
+                character.x = centerX + Math.cos(radians) * orbit.radius;
+                character.y = centerY + Math.sin(radians) * orbit.radius;
+                // console.log(character.x);
+                // console.log(character.y);
+                character.setScale(orbit.scale);
+                character.angle = orbit.angle + 90;
+            },
+            onComplete: () => {
+                // character.destroy();
+                //this.scene.start("scene2");
+            }
+        });
+    }
+    
     tween(item, angle) {
         this.tweens.add({
             targets: item,
@@ -162,13 +235,13 @@ class Scene1 extends Controller {
         });
     }
 
-    onCollide (character, ground) {
+    onCollide(character, ground) {
         if (character.anims.getName() != 'idle') {
             character.play("idle");
         }
     }
 
-    onPickup () {
+    onPickup() {
         this.collected = true;
         this.cream.destroy();
     }
@@ -179,9 +252,10 @@ class Scene1 extends Controller {
             this.character.play("airborne");
             }
         }
-
-        let elapsed = (this.time.now) / 1000;
-        this.text.setText(`Time: ${elapsed.toFixed(2)}`);
+        if (!this.timer.paused) {
+            let elapsed = (this.time.now) / 1000;
+            this.text.setText(`Time: ${elapsed.toFixed(2)}`);
+        }
     }
 }
 

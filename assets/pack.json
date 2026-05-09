@@ -12,6 +12,11 @@
                 "url": "assets/ground.png"
             },
             {
+                "type": "image",
+                "key": "exit",
+                "url": "assets/1.png"
+            },
+            {
                 "type": "spritesheet",
                 "key": "idlespritesheet",
                 "url": "assets/animations/idle/sprite_sheet.png",
