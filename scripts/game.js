@@ -1,5 +1,3 @@
-"use strict";
-
 class Scene1 extends Controller {
     constructor() {
         super("scene1");
@@ -156,6 +154,13 @@ class Scene1 extends Controller {
         this.exit.body.immovable = true;
         this.exit.body.allowGravity = false;
 
+        this.block = this.physics.add.sprite(500, 500, 'block').setDepth(10).setScale(0.5);
+        this.block.allowGravity = true;
+        this.block.immovable = false;
+
+        this.physics.add.collider(this.block, this.ground);
+        this.physics.add.collider(this.block, this.character);
+
         // Add colliders for player
         this.physics.add.collider(
             this.character, 
@@ -194,7 +199,7 @@ class Scene1 extends Controller {
         // this.input.keyboard.enabled = false;
         
         let orbit = {
-            angle: 0,
+            angle: 180,
             radius: startRadius,
             scale: character.scale
         };
@@ -257,20 +262,6 @@ class Scene1 extends Controller {
             this.text.setText(`Time: ${elapsed.toFixed(2)}`);
         }
     }
-}
-
-
-
-class Scene2 extends Phaser.Scene {
-    constructor() {
-        super("scene2");
-    }
-
-    preload() {}
-
-    create() {}
-
-    update() {}
 }
 
 

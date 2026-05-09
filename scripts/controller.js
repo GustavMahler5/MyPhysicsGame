@@ -11,7 +11,7 @@ class Controller extends Phaser.Scene {
         this.ONE_SECOND = 1000;
     }
     preload() {
-        this.load.pack("main", "assets/pack.json");
+        // this.load.pack("main", "assets/pack.json");
     }
     create() {}
     update() {}
