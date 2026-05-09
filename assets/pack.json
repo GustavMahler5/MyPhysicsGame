@@ -4,22 +4,27 @@
             {
                 "type": "image",
                 "key": "looking",
-                "url": "assets/Looking2.png"
+                "url": "assets/world-objects/Looking2.png"
             },
             {
                 "type": "image",
                 "key": "ground",
-                "url": "assets/ground.png"
+                "url": "assets/world-objects/ground.png"
+            },
+            {
+                "type": "image",
+                "key": "spike",
+                "url": "assets/world-objects/spike.png"
             },
             {
                 "type": "image",
                 "key": "exit",
-                "url": "assets/1.png"
+                "url": "assets/world-objects/1.png"
             },
             {
                 "type": "image",
                 "key": "block",
-                "url": "assets/block.png"
+                "url": "assets/world-objects/block.png"
             },
             {
                 "type": "spritesheet",
@@ -28,6 +33,15 @@
                 "frameConfig": {
                     "frameWidth": 360,
                     "frameHeight": 300
+                }
+            },
+            {
+                "type": "spritesheet",
+                "key": "exitspritesheet",
+                "url": "assets/animations/exit/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 120,
+                    "frameHeight": 120
                 }
             },
             {
