@@ -13,8 +13,23 @@
             },
             {
                 "type": "image",
-                "key": "spike",
-                "url": "assets/world-objects/spike.png"
+                "key": "spikeup",
+                "url": "assets/world-objects/spikeup.png"
+            },
+            {
+                "type": "image",
+                "key": "spikedown",
+                "url": "assets/world-objects/spikedown.png"
+            },
+            {
+                "type": "image",
+                "key": "spikeleft",
+                "url": "assets/world-objects/spikeleft.png"
+            },
+            {
+                "type": "image",
+                "key": "spikeright",
+                "url": "assets/world-objects/spikeright.png"
             },
             {
                 "type": "image",
@@ -31,8 +46,17 @@
                 "key": "idlespritesheet",
                 "url": "assets/animations/idle/sprite_sheet.png",
                 "frameConfig": {
-                    "frameWidth": 360,
-                    "frameHeight": 300
+                    "frameWidth": 100,
+                    "frameHeight": 100
+                }
+            },
+            {
+                "type":"spritesheet",
+                "key":"airbornespritesheet",
+                "url": "assets/animations/airborne/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 100,
+                    "frameHeight": 100
                 }
             },
             {
@@ -92,15 +116,6 @@
                 "type": "image",
                 "key": "downgravity2",
                 "url": "assets/effects/downgravity2.png"
-            },
-            {
-                "type":"spritesheet",
-                "key":"airbornespritesheet",
-                "url": "assets/animations/airborne/sprite_sheet.png",
-                "frameConfig": {
-                    "frameWidth": 360,
-                    "frameHeight": 300
-                }
             }
         ]
     }

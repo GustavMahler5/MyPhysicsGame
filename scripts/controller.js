@@ -5,10 +5,11 @@ class Controller extends Phaser.Scene {
         super(key);
         this.SCREEN_WIDTH = 1920;
         this.SCREEN_HEIGHT = 1080;
-        this.DRAG = 750;
+        this.DRAG = 500;
         this.GROUND_SIZE = 60;
-        this.GRAVITY = 1800;
+        this.GRAVITY = 1200;
         this.ONE_SECOND = 1000;
+        this.MAX_VELOCITY = 800;
 
         // Level matrix
         this.level1 = [
@@ -24,7 +25,7 @@ class Controller extends Phaser.Scene {
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", "#", "#", "#", "#", "#", "#", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", "#", "#", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", "#", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", "+", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", "#"],
         ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", "#", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "#", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
@@ -33,22 +34,22 @@ class Controller extends Phaser.Scene {
         ];
         this.level2 = [
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+        ["#", "+", "+", "+", "+", "+", "+", "+", "#", ".", "+", "+", "+", "+", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "<", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "<", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "<", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "<", "#"],
         ["#", ".", ".", ".", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", "+", "+", "+", "+", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", "#", "#", "#", "#", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+        ["#", ".", ".", ".", "+", "+", "+", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
         ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+        ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "^", "#"],
         ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]
         ];
         this.level3 = [
@@ -76,7 +77,7 @@ class Controller extends Phaser.Scene {
     create() {}
     update() {}
 
-    handleInput(input, character) {
+    handleInput(input, character, scene) {
 
         switch(input) {
 
@@ -310,6 +311,12 @@ class Controller extends Phaser.Scene {
             case("f"):
                 this.physics.world.drawDebug = !this.physics.world.drawDebug;
                 this.physics.world.debugGraphic.clear();
+                break;
+
+
+            case("r"):
+                this.scene.start(scene);
+                break;
         }
     }
 
@@ -364,6 +371,7 @@ class Controller extends Phaser.Scene {
             ease: "linear",
             yoyo: true
         });
+        return this.cream;
     }
 
     createExit(x, y) {
@@ -376,15 +384,15 @@ class Controller extends Phaser.Scene {
         return this.exit;
     }
 
-    onCollide(character, ground) {
+    onCollide(character) {
         if (character.anims.getName() != 'idle') {
             character.play("idle");
         }
     }
 
-    onPickup() {
+    onPickup(item) {
         this.collected = true;
-        this.cream.destroy();
+        item.destroy();
     }
 
     buildWorld(level) {
@@ -397,14 +405,37 @@ class Controller extends Phaser.Scene {
                     case("#"):
                         let groundTile = this.physics.add.sprite(x, y, "ground").setOrigin(0,0).setScale(0.5);
                         groundTile.body.immovable = true;
+                        groundTile.body.pushable = false;
                         groundTile.body.allowGravity = false;
                         this.ground.add(groundTile);
                         break;
+                    case("^"):
+                        let spikeTileUp = this.physics.add.sprite(x, y, "spikeup").setOrigin(0,0).setScale(0.5);
+                        spikeTileUp.body.immovable = true;
+                        spikeTileUp.body.pushable = false;
+                        spikeTileUp.body.allowGravity = false;
+                        this.spikes.add(spikeTileUp);
+                        break;
+                    case(">"):
+                        let spikeTileRight = this.physics.add.sprite(x, y, "spikeright").setOrigin(0,0).setScale(0.5);
+                        spikeTileRight.body.immovable = true;
+                        spikeTileRight.body.pushable = false;
+                        spikeTileRight.body.allowGravity = false;
+                        this.spikes.add(spikeTileRight);
+                        break;
+                    case("<"):
+                        let spikeTileLeft = this.physics.add.sprite(x, y, "spikeleft").setOrigin(0,0).setScale(0.5);
+                        spikeTileLeft.body.immovable = true;
+                        spikeTileLeft.body.pushable = false;
+                        spikeTileLeft.body.allowGravity = false;
+                        this.spikes.add(spikeTileLeft);
+                        break;
                     case("+"):
-                        let spikeTile = this.physics.add.sprite(x, y, "spike").setOrigin(0,0).setScale(0.5);
-                        spikeTile.body.immovable = true;
-                        spikeTile.body.allowGravity = false;
-                        this.spikes.add(spikeTile);
+                        let spikeTileDown = this.physics.add.sprite(x, y, "spikedown").setOrigin(0,0).setScale(0.5);
+                        spikeTileDown.body.immovable = true;
+                        spikeTileDown.body.pushable = false;
+                        spikeTileDown.body.allowGravity = false;
+                        this.spikes.add(spikeTileDown);
                         break;
                     default:
                         // do nothing
@@ -422,14 +453,23 @@ class Controller extends Phaser.Scene {
     }
 
     buildPlayer() {
-        // Create character
-        this.character = this.physics.add.sprite(this.PLAYER_START_X, this.PLAYER_START_Y, "airbornespritesheet")
-        .setScale(0.25)
+        // Create player
+        this.player = this.physics.add.sprite(this.PLAYER_START_X, this.PLAYER_START_Y, "idlespritesheet")
+        .setScale(0.6)
         .setDrag(this.DRAG, this.DRAG)
-        .setOrigin(0.5, 0.6);
-        this.character.body.setSize(170, 170);
-        this.character.body.setOffset(95, 95);
-        this.character.setCollideWorldBounds(true);
-        return this.character;
+        .setOrigin(0.5, 0.5)
+        .setMaxVelocity(this.MAX_VELOCITY, this.MAX_VELOCITY);
+        this.player.immovable = true;
+        this.player.body.pushable = false;
+        // this.player.body.moves = true;
+        // this.player.body.setSize(170, 170);
+        // this.player.body.setOffset(95, 95);
+        this.player.setCollideWorldBounds(true);
+        return this.player;
+    }
+
+    resetPlayer(player, x, y) {
+        player.x = x;
+        player.y = y
     }
 }

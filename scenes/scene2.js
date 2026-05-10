@@ -5,7 +5,7 @@ class Scene2 extends Controller {
         this.PLAYER_START_Y = 900;
 
         this.CREAM_START_X = 400;
-        this.CREAM_START_Y = 200;
+        this.CREAM_START_Y = 275;
         this.CREAM_ANGLE = 5;
         this.collected = false;
 
@@ -23,8 +23,8 @@ class Scene2 extends Controller {
         // Build World
         this.buildWorld(this.level2);
 
-        // Create character
-        this.character = this.buildPlayer();
+        // Create player
+        this.player = this.buildPlayer();
 
         // Create collectable
         this.cream = this.createCollectable(this.CREAM_START_X, this.CREAM_START_Y);
@@ -39,52 +39,43 @@ class Scene2 extends Controller {
         });
         this.text = this.add.text(100, 100, "Time: 0").setDepth(10);
 
-        this.block = this.physics.add.sprite(500, 500, 'block').setDepth(10).setScale(0.5);
+        this.block = this.physics.add.sprite(500, 500, 'block')
+        .setDepth(10)
+        .setScale(0.5)
+        .setDrag(this.DRAG + 250, this.DRAG + 250)
+        .setMaxVelocity(this.MAX_VELOCITY, this.MAX_VELOCITY);
         this.block.allowGravity = true;
-        this.block.immovable = false;
+        this.block.immovable = true;
+        this.block.body.pushable = false;
 
         this.physics.add.collider(this.block, this.ground);
-        this.physics.add.collider(this.block, this.character);
+        this.physics.add.collider(this.block, this.player);
+        this.physics.add.collider(this.block, this.spikes);
 
-        this.physics.add.collider(
-            this.character, 
-            this.ground, 
-            this.onCollide, 
-            null, 
-            this);
-
-        this.physics.add.overlap(
-            this.character, 
-            this.cream, 
-            this.onPickup, 
-            null, 
-            this);
-
-        this.physics.add.overlap(
-            this.character, 
-            this.exit, 
+        this.physics.add.collider(this.player, this.ground, () => this.onCollide(this.player));
+        this.physics.add.collider(this.player, this.spikes, () => this.resetPlayer(this.player, this.PLAYER_START_X, this.PLAYER_START_Y));
+        this.physics.add.overlap(this.player, this.cream, () => this.onPickup(this.cream));
+        this.physics.add.overlap(this.player, this.exit, 
             () => { this.onExit(
-                this.character, 
+                this.player, 
                 this.exit.x, 
                 this.exit.y, 
                 100, 
                 this.ONE_SECOND * 2,
                 "scene3") 
-            }, 
-            null, 
-            this);
+            });
 
         // Handle user inputs
         this.input.keyboard.on('keydown', (event) => {
-            this.handleInput(event.key, this.character);
+            this.handleInput(event.key, this.player);
             console.log((this.time.now / 1000).toFixed(2));
         });
     }
 
     update() {
-        if (this.character.body.touching.none) {
-            if (this.character.anims.getName() != 'airborne') {
-            this.character.play("airborne");
+        if (this.player.body.touching.none) {
+            if (this.player.anims.getName() != 'airborne') {
+                this.player.play("airborne");
             }
         }
         if (!this.timer.paused) {

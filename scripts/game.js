@@ -12,13 +12,14 @@ const game = new Phaser.Game({
     physics: {
         default: "arcade",
         arcade: {
-            debug: false,
+            debug: true,
+            tileBias: 120,
             gravity: {
                 x: 0,
                 y: 1800
             }
         }
     },
-    scene: [Scene1, Scene2, Scene3],
+    scene: [Scene2, Scene1, Scene3],
     title: "My Physics Game",
 });

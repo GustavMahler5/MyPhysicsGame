@@ -28,19 +28,20 @@ class Scene1 extends Controller {
             this.anims.create({
                 key: "idle",
                 frames: this.anims.generateFrameNumbers("idlespritesheet", {
-                    start: 0,
-                    end: 20
+                    start: 1,
+                    end: 9
                 }),
-                frameRate: 30,
-                repeat: -1
+                frameRate: 5,
+                repeat: -1,
+                
             });
             this.anims.create({
                 key: "airborne",
                 frames: this.anims.generateFrameNumbers("airbornespritesheet", {
-                    start: 8,
-                    end: 18
+                    start: 0,
+                    end: 2
                 }),
-                frameRate: 60,
+                frameRate: 15,
                 repeat: 0
             })
             this.anims.create({
@@ -66,8 +67,8 @@ class Scene1 extends Controller {
         // Build the level
         this.buildWorld(this.level1);
 
-        // Create character
-        this.character = this.buildPlayer();
+        // Create player
+        this.player = this.buildPlayer();
 
         // Create collectable
         this.cream = this.createCollectable(this.CREAM_START_X, this.CREAM_START_Y);
@@ -82,69 +83,77 @@ class Scene1 extends Controller {
         // Add exit for the scene
         this.exit = this.createExit(this.EXIT_START_X, this.EXIT_START_Y);
 
-        this.block = this.physics.add.sprite(500, 500, 'block').setDepth(10).setScale(0.5);
+        this.block = this.physics.add.sprite(this.PLAYER_START_X + 2000, this.PLAYER_START_Y, 'block')
+        .setDepth(10)
+        .setScale(0.5)
+        .setDrag(this.DRAG + 250, this.DRAG + 250);
         this.block.allowGravity = true;
-        this.block.immovable = false;
+        this.block.immovable = true;
+        this.block.body.pushable = false;
+        // this.block.body.moves = true;
 
         // Add colliders for the blocks
         this.physics.add.collider(this.block, this.ground);
-        this.physics.add.collider(this.block, this.character);
+        this.physics.add.collider(this.block, this.player);
         this.physics.add.collider(this.block, this.spikes);
+        // this.physics.add.overlap(this.player, this.cream, this.onPickup);
 
         // Add colliders for player
-        this.physics.add.collider(
-            this.character, 
-            this.ground, 
-            this.onCollide, 
-            null, 
-            this);
-        
-        this.physics.add.collider(
-            this.character, 
-            this.spikes, 
-            this.onCollide, 
-            null, 
-            this);
-
-        this.physics.add.overlap(
-            this.character, 
-            this.cream, 
-            this.onPickup, 
-            null, 
-            this);
-
-        this.physics.add.overlap(
-            this.character, 
-            this.exit, 
+        this.physics.add.collider(this.player, this.ground, () => this.onCollide(this.player));
+        this.physics.add.collider(this.player, this.spikes, () => this.resetPlayer(this.player, this.PLAYER_START_X, this.PLAYER_START_Y));
+        this.physics.add.overlap(this.player, this.cream, () => this.onPickup(this.cream));
+        // this.physics.add.overlap(this.player, this.block, () => this.onCrush());
+        this.physics.add.overlap(this.player, this.exit, 
             () => { this.onExit(
-                this.character, 
+                this.player, 
                 this.exit.x, 
                 this.exit.y, 
                 100, 
                 this.ONE_SECOND * 2,
                 "scene2") 
-            }, 
-            null, 
-            this);
+            });
 
         // Handle user inputs
         this.input.keyboard.on('keydown', (event) => {
-            this.handleInput(event.key, this.character);
+            this.handleInput(event.key, this.player, "scene1");
             console.log((this.time.now / 1000).toFixed(2));
         });
         
-        // this.onExit(sprite, this.EXIT_START_X, this.EXIT_START_Y, this.character, this.ONE_SECOND * 2);
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        
+        // this.onExit(sprite, this.EXIT_START_X, this.EXIT_START_Y, this.player, this.ONE_SECOND * 2);
     }
 
+    setTimeScale(scale) {
+
+    // Physics
+    this.physics.world.timeScale = 1 / scale;
+
+    // Tweens
+    this.tweens.timeScale = scale;
+
+    // Animations
+    this.anims.globalTimeScale = scale;
+
+    // Timers
+    this.time.timeScale = scale;
+}
+
     update() {
-        if (this.character.body.touching.none) {
-            if (this.character.anims.getName() != 'airborne') {
-            this.character.play("airborne");
+        if (this.player.body.touching.none) {
+            if (this.player.anims.getName() != 'airborne') {
+            this.player.play("airborne");
             }
         }
         if (!this.timer.paused) {
             let elapsed = (this.time.now) / 1000;
             this.text.setText(`Time: ${elapsed.toFixed(2)}`);
+        }
+        if (this.spaceBar.isDown) {
+            this.setTimeScale(0.5);
+        }
+        else {
+            this.setTimeScale(1)
         }
     }
 }
