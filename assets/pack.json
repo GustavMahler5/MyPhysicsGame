@@ -78,6 +78,15 @@
                 }
             },
             {
+                "type": "spritesheet",
+                "key": "confettispritesheet",
+                "url": "assets/animations/confetti/sprite_sheet.png",
+                "frameConfig": {
+                    "frameWidth": 120,
+                    "frameHeight": 120
+                }
+            },
+            {
                 "type": "image",
                 "key": "leftgravity1",
                 "url": "assets/effects/leftgravity1.png"
