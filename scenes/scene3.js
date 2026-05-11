@@ -34,6 +34,71 @@ class Scene3 extends Controller {
         // Player cannot go beyond camera scope
         this.physics.world.setBoundsCollision();
 
+        // Create animations
+        if (1) {
+
+            this.anims.create({
+
+                key: "idle",
+                frames: this.anims.generateFrameNumbers("idlespritesheet", {
+                    start: 1,
+                    end: 9
+                }),
+                frameRate: 5,
+                repeat: -1,
+                
+            });
+
+            this.anims.create({
+
+                key: "airborne",
+                frames: this.anims.generateFrameNumbers("airbornespritesheet", {
+                    start: 0,
+                    end: 2
+                }),
+                frameRate: 15,
+                repeat: 0
+
+            })
+
+            this.anims.create({
+
+                key: "cream",
+                frames: this.anims.generateFrameNumbers("creamspritesheet", {
+                    start: 0,
+                    end: 4
+                }),
+                frameRate: 5,
+                repeat: -1
+
+            })
+
+            this.anims.create({
+
+                key: "exit",
+                frames: this.anims.generateFrameNumbers("exitspritesheet", {
+                    start: 0,
+                    end: 11
+                }),
+                frameRate: 30,
+                repeat: 0
+
+            })
+
+            this.anims.create({
+
+                key: "confetti",
+                frames: this.anims.generateFrameNumbers("confettispritesheet", {
+                    start: 0,
+                    end: 4
+                }),
+                frameRate: 5,
+                repeat: 0
+
+            })
+
+        }
+
         // Build World
         this.buildWorld(this.level3);
 
@@ -47,7 +112,6 @@ class Scene3 extends Controller {
         this.exit = this.createExit(this.EXIT_START_X, this.EXIT_START_Y);
 
         // Add timer for scene
-        this.timeElapsed = this.add.text(100, 100, "Time: 0").setDepth(10);
         this.levelStartTime = this.time.startTime;
 
         // Create block
@@ -83,7 +147,7 @@ class Scene3 extends Controller {
                     this.exit.x,            // Where the exit is on the x axis
                     this.exit.y,            // Where the exit is on the y axis
                     this.ONE_SECOND * 2,    // Duration of the animation
-                    "Inertia",              // Name of the next level
+                    "Credits",              // Name of the next level
                     finalTime,              // Final time
                     this.PAR_TIME,          // Par time
                     this.PAR_SWITCHES       // Par switches
@@ -96,7 +160,6 @@ class Scene3 extends Controller {
         this.input.keyboard.on('keydown', (event) => {
 
             this.handleInput(event.key, this.player);
-            console.log((this.time.now / 1000).toFixed(2));
 
         });
 
@@ -122,13 +185,6 @@ class Scene3 extends Controller {
                 this.player.play("airborne");
 
             }
-
-        }
-
-        if (!this.levelFinished) {
-
-            let elapsed = (this.time.now - this.levelStartTime) / 1000;
-            this.timeElapsed.setText(`Time: ${elapsed.toFixed(2)}`);
 
         }
 

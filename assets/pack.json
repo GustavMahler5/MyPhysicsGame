@@ -42,6 +42,11 @@
                 "url": "assets/world-objects/block.png"
             },
             {
+                "type": "image",
+                "key": "wave",
+                "url": "assets/world-objects/wave.png"
+            },
+            {
                 "type": "spritesheet",
                 "key": "idlespritesheet",
                 "url": "assets/animations/idle/sprite_sheet.png",

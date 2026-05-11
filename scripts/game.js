@@ -24,7 +24,7 @@ const game = new Phaser.Game({
         }
     },
 
-    scene: [Scene1, Scene2, Scene3],
-    title: "My Physics Game"
+    scene: [MainMenu, Scene1, Scene2, Scene3, Credits],
+    title: "Gravity"
 
 });

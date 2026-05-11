@@ -404,7 +404,6 @@ class Controller extends Phaser.Scene {
 
     }
 
-
     onExit(character, centerX, centerY, duration, scene, time, parTime, parSwitches) {
 
         character.body.enable = false;
@@ -617,6 +616,7 @@ class Controller extends Phaser.Scene {
         this.player = this.physics.add.sprite(this.PLAYER_START_X, this.PLAYER_START_Y, "idlespritesheet")
         .setScale(0.6)
         .setDrag(this.DRAG, this.DRAG)
+        .setDepth(5)
         .setOrigin(0.5, 0.5)
         .setMaxVelocity(this.MAX_VELOCITY, this.MAX_VELOCITY);
 

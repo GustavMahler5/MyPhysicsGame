@@ -1,7 +1,7 @@
 class Scene1 extends Controller {
     constructor() {
 
-        super("Tutorial");
+        super("Spikes");
         this.PLAYER_START_X = 100;
         this.PLAYER_START_Y = 100;
 
@@ -115,14 +115,25 @@ class Scene1 extends Controller {
         this.exit = this.createExit(this.EXIT_START_X, this.EXIT_START_Y);
 
         // Create timer
-        this.timeElapsed = this.add.text(100, 100, "Time: 0").setDepth(10);
         this.levelStartTime = this.time.startTime;
+
+        // Add tutorial text
+        this.tutorialText = this.add.group();
+        this.addTutorialText(100, 100, "WASD: Shift Gravity");
+        this.addTutorialText(300, 400, "Space: Half Time");
+        this.addTutorialText(1600, 100, "Exit");
+        this.addTutorialText(200, 800, "Avoid Spikes");
+        this.addTutorialText(1450, 800, "Collect Me!");
+
+        // Let the text collide with the ground and spikes!
+        this.physics.add.collider(this.tutorialText, this.ground);
+        this.physics.add.collider(this.tutorialText, this.spikes);
 
         // Add block
         this.block = this.physics.add.sprite(this.BLOCK_START_X, this.BLOCK_START_Y, 'block')
         .setDepth(10)
         .setScale(0.5)
-        .setDrag(this.DRAG + 250, this.DRAG + 250)
+        .setDrag(this.DRAG + 150, this.DRAG + 150)
         .setMaxVelocity(this.MAX_VELOCITY, this.MAX_VELOCITY);;
 
         this.block.allowGravity = true;
@@ -166,7 +177,6 @@ class Scene1 extends Controller {
         this.input.keyboard.on('keydown', (event) => {
 
             this.handleInput(event.key, this.player, "scene1");
-            console.log((this.time.now / 1000).toFixed(2));
 
         });
 
@@ -183,6 +193,18 @@ class Scene1 extends Controller {
 
     }
 
+    addTutorialText(x, y, text) {
+
+        let myText = this.add.text(x, y, `${text}`)
+        .setDepth(1)
+        .setStyle({ fontSize: `48px`, color: '#FFFFFF' });
+
+        this.physics.add.existing(myText, false);
+        myText.allowGravity = true;
+        this.tutorialText.add(myText);
+
+    }
+
     update() {
 
         if (this.player.body.touching.none) {
@@ -192,13 +214,6 @@ class Scene1 extends Controller {
                 this.player.play("airborne");
 
             }
-
-        }
-
-        if (!this.levelFinished) {
-
-            let elapsed = (this.time.now - this.levelStartTime) / 1000;
-            this.timeElapsed.setText(`Time: ${elapsed.toFixed(2)}`);
 
         }
 
