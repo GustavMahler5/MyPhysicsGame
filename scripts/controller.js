@@ -550,6 +550,8 @@ class Controller extends Phaser.Scene {
         this.ground = this.add.group();
         this.spikes = this.add.group();
 
+        
+
         for (let x = 0; x < this.SCREEN_WIDTH/* / this.GROUND_SIZE*/; x += this.GROUND_SIZE) {
 
             for (let y = 0; y < this.SCREEN_HEIGHT/* / this.GROUND_SIZE*/; y += this.GROUND_SIZE) {
@@ -608,6 +610,19 @@ class Controller extends Phaser.Scene {
                 }
             }
         }
+        this.ground.setAlpha(0);
+        this.spikes.setAlpha(0);
+        this.tweens.add({
+            targets: this.ground.getChildren(),
+            alpha: 1,
+            duration: this.ONE_SECOND
+        });
+        this.tweens.add({
+            targets: this.spikes.getChildren(),
+            alpha: 1,
+            duration: this.ONE_SECOND 
+        });
+        
     }
 
     buildPlayer() {
@@ -619,6 +634,9 @@ class Controller extends Phaser.Scene {
         .setDepth(5)
         .setOrigin(0.5, 0.5)
         .setMaxVelocity(this.MAX_VELOCITY, this.MAX_VELOCITY);
+
+        this.player.enableFilters();
+        this.player.filters.internal.addGlow("0x00FF00");
 
         this.player.immovable = true;
         this.player.body.pushable = false;

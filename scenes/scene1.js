@@ -125,6 +125,15 @@ class Scene1 extends Controller {
         this.addTutorialText(200, 800, "Avoid Spikes");
         this.addTutorialText(1450, 800, "Collect Me!");
 
+        this.tutorialText.setAlpha(0);
+
+        this.tweens.add({
+            targets: this.tutorialText.getChildren(),
+            alpha: 1,
+            duration: this.ONE_SECOND,
+            delay: this.ONE_SECOND
+        });
+
         // Let the text collide with the ground and spikes!
         this.physics.add.collider(this.tutorialText, this.ground);
         this.physics.add.collider(this.tutorialText, this.spikes);
